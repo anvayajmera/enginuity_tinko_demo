@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-interface DeviceControlProps {
+interface DeviceControlPanelProps {
     onToggleLED: () => void;
     onChangeMotorSpeed: (speed: number) => void;
     onTriggerBuzzer: () => void;
 }
 
-const DeviceControlPanel: React.FC<DeviceControlProps> = ({ onToggleLED, onChangeMotorSpeed, onTriggerBuzzer }) => {
-    const [motorSpeed, setMotorSpeed] = React.useState(0);
+const DeviceControlPanel: React.FC<DeviceControlPanelProps> = ({
+    onToggleLED,
+    onChangeMotorSpeed,
+    onTriggerBuzzer
+}) => {
+    const [ledState, setLedState] = useState(false);
+    const [motorSpeed, setMotorSpeed] = useState(0);
 
-    const handleMotorSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const speed = Number(event.target.value);
+    const handleLEDToggle = () => {
+        setLedState(!ledState);
+        onToggleLED();
+    };
+
+    const handleMotorSpeedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const speed = parseInt(e.target.value);
         setMotorSpeed(speed);
         onChangeMotorSpeed(speed);
     };
@@ -28,95 +38,105 @@ const DeviceControlPanel: React.FC<DeviceControlProps> = ({ onToggleLED, onChang
             
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
                 gap: '20px'
             }}>
-                {/* Toggle LED */}
+                {/* LED Control */}
                 <div style={{
                     background: '#f8fafc',
-                    padding: '20px',
-                    borderRadius: '15px',
                     border: '2px solid #e2e8f0',
-                    textAlign: 'center'
-                }}>
-                    <h3 style={{ margin: '0 0 15px 0', color: '#374151' }}>LED Control</h3>
-                    <button 
-                        onClick={onToggleLED}
-                        style={{
-                            background: '#4F46E5',
-                            color: 'white',
-                            border: 'none',
-                            padding: '12px 24px',
-                            borderRadius: '10px',
-                            fontSize: '16px',
-                            fontWeight: '600',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            width: '100%'
-                        }}
-                    >
-                        Toggle LED
-                    </button>
-                </div>
-
-                {/* Motor Speed */}
-                <div style={{
-                    background: '#f8fafc',
-                    padding: '20px',
                     borderRadius: '15px',
-                    border: '2px solid #e2e8f0'
+                    padding: '20px'
                 }}>
-                    <h3 style={{ margin: '0 0 15px 0', color: '#374151', textAlign: 'center' }}>Motor Speed</h3>
-                    <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        value={motorSpeed}
-                        onChange={handleMotorSpeedChange}
-                        style={{
-                            width: '100%',
-                            height: '8px',
-                            borderRadius: '5px',
-                            background: '#e2e8f0',
-                            outline: 'none',
-                            marginBottom: '10px'
-                        }}
-                    />
-                    <div style={{
-                        textAlign: 'center',
-                        fontSize: '18px',
-                        fontWeight: '600',
-                        color: '#374151'
-                    }}>
-                        {motorSpeed}%
+                    <h3 style={{ margin: '0 0 15px 0', color: '#333' }}>LED Control</h3>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                        <button
+                            onClick={handleLEDToggle}
+                            style={{
+                                background: ledState ? '#10B981' : '#6B7280',
+                                color: 'white',
+                                border: 'none',
+                                padding: '10px 20px',
+                                borderRadius: '25px',
+                                fontSize: '14px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                transition: 'all 0.3s ease'
+                            }}
+                        >
+                            {ledState ? 'ON' : 'OFF'}
+                        </button>
+                        <div style={{
+                            width: '20px',
+                            height: '20px',
+                            borderRadius: '50%',
+                            background: ledState ? '#10B981' : '#E5E7EB',
+                            transition: 'all 0.3s ease',
+                            boxShadow: ledState ? '0 0 10px #10B981' : 'none'
+                        }} />
                     </div>
                 </div>
 
-                {/* Buzzer */}
+                {/* Motor Control */}
                 <div style={{
                     background: '#f8fafc',
-                    padding: '20px',
-                    borderRadius: '15px',
                     border: '2px solid #e2e8f0',
-                    textAlign: 'center'
+                    borderRadius: '15px',
+                    padding: '20px'
                 }}>
-                    <h3 style={{ margin: '0 0 15px 0', color: '#374151' }}>Buzzer</h3>
-                    <button 
+                    <h3 style={{ margin: '0 0 15px 0', color: '#333' }}>Motor Speed</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        <input
+                            type="range"
+                            min="0"
+                            max="255"
+                            value={motorSpeed}
+                            onChange={handleMotorSpeedChange}
+                            style={{
+                                width: '100%',
+                                height: '8px',
+                                borderRadius: '5px',
+                                background: '#E5E7EB',
+                                outline: 'none'
+                            }}
+                        />
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            fontSize: '14px',
+                            color: '#6B7280'
+                        }}>
+                            <span>0</span>
+                            <span style={{ fontWeight: 'bold', color: '#333' }}>{motorSpeed}</span>
+                            <span>255</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Buzzer Control */}
+                <div style={{
+                    background: '#f8fafc',
+                    border: '2px solid #e2e8f0',
+                    borderRadius: '15px',
+                    padding: '20px'
+                }}>
+                    <h3 style={{ margin: '0 0 15px 0', color: '#333' }}>Buzzer</h3>
+                    <button
                         onClick={onTriggerBuzzer}
                         style={{
-                            background: '#EF4444',
+                            background: '#F59E0B',
                             color: 'white',
                             border: 'none',
                             padding: '12px 24px',
-                            borderRadius: '10px',
-                            fontSize: '16px',
+                            borderRadius: '25px',
+                            fontSize: '14px',
                             fontWeight: '600',
                             cursor: 'pointer',
                             transition: 'all 0.3s ease',
                             width: '100%'
                         }}
                     >
-                        Trigger Buzzer
+                        🔊 Trigger Buzzer
                     </button>
                 </div>
             </div>

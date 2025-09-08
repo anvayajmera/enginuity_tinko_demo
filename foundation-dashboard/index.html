@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microbit Sensor Dashboard - Foundation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <header class="header">
+            <h1>🎯 Microbit Sensor Dashboard</h1>
+            <p>Foundation Level - Perfect for Learning!</p>
+            <div class="connection-badge">
+                <span class="status-dot connected"></span>
+                <span>Loading data...</span>
+                <button id="refresh-btn" onclick="location.reload()">🔄 Refresh</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="sensors-grid">
+                <div class="sensor-card temperature">
+                    <div class="sensor-header">
+                        <img src="https://via.placeholder.com/60x60/ff6b6b/white?text=TEMP" alt="Temperature" class="sensor-icon">
+                        <h3>Temperature</h3>
+                    </div>
+                    <div class="sensor-value">23.5°C</div>
+                    <div class="sensor-status">Normal</div>
+                </div>
+
+                <div class="sensor-card light">
+                    <div class="sensor-header">
+                        <img src="https://via.placeholder.com/60x60/ffd93d/white?text=LIGHT" alt="Light" class="sensor-icon">
+                        <h3>Light Level</h3>
+                    </div>
+                    <div class="sensor-value">750 lux</div>
+                    <div class="sensor-status">Bright</div>
+                </div>
+
+                <div class="sensor-card sound">
+                    <div class="sensor-header">
+                        <img src="https://via.placeholder.com/60x60/6bcf7f/white?text=SOUND" alt="Sound" class="sensor-icon">
+                        <h3>Sound Level</h3>
+                    </div>
+                    <div class="sensor-value">45 dB</div>
+                    <div class="sensor-status">Quiet</div>
+                </div>
+
+                <div class="sensor-card acceleration">
+                    <div class="sensor-header">
+                        <img src="https://via.placeholder.com/60x60/4ecdc4/white?text=ACCEL" alt="Acceleration" class="sensor-icon">
+                        <h3>Movement</h3>
+                    </div>
+                    <div class="sensor-value">Still</div>
+                    <div class="sensor-status">No Motion</div>
+                </div>
+
+                <div class="sensor-card compass">
+                    <div class="sensor-header">
+                        <img src="https://via.placeholder.com/60x60/a8e6cf/white?text=COMP" alt="Compass" class="sensor-icon">
+                        <h3>Compass</h3>
+                    </div>
+                    <div class="sensor-value">45°</div>
+                    <div class="sensor-status">Northeast</div>
+                </div>
+
+                <div class="sensor-card buttons">
+                    <div class="sensor-header">
+                        <img src="https://via.placeholder.com/60x60/ff8b94/white?text=BTN" alt="Buttons" class="sensor-icon">
+                        <h3>Buttons</h3>
+                    </div>
+                    <div class="sensor-value">A + B</div>
+                    <div class="sensor-status">Pressed</div>
+                </div>
+            </section>
+
+            <section class="activity-log">
+                <h2>📊 Recent Activity</h2>
+                <div class="log-entries">
+                    <div class="log-entry">
+                        <span class="log-time">2:34 PM</span>
+                        <span class="log-message">Button A pressed</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">2:33 PM</span>
+                        <span class="log-message">Movement detected</span>
+                    </div>
+                    <div class="log-entry">
+                        <span class="log-time">2:32 PM</span>
+                        <span class="log-message">Temperature changed to 23.5°C</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

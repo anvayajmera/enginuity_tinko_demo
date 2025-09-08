@@ -1,79 +1,57 @@
 "use strict";
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 exports.__esModule = true;
 var react_1 = require("react");
 var ComponentLibrary = function () {
     var components = [
         {
-            name: 'Arduino Uno',
-            category: 'Microcontrollers',
-            description: 'Popular development board with ATmega328P',
-            image: '🔌',
-            specs: '14 digital pins, 6 analog inputs, USB connection'
-        },
-        {
-            name: 'Micro:bit',
-            category: 'Microcontrollers',
-            description: 'Educational single-board computer',
-            image: '💻',
-            specs: 'Built-in LED matrix, accelerometer, Bluetooth'
+            name: 'Temperature Sensor',
+            type: 'DHT22',
+            description: 'Digital temperature and humidity sensor',
+            pins: ['VCC', 'Data', 'GND'],
+            image: '🌡️'
         },
         {
             name: 'Ultrasonic Sensor',
-            category: 'Sensors',
-            description: 'HC-SR04 distance measurement sensor',
-            image: '📡',
-            specs: 'Range: 2cm-400cm, Frequency: 40kHz'
-        },
-        {
-            name: 'Temperature Sensor',
-            category: 'Sensors',
-            description: 'DS18B20 digital temperature sensor',
-            image: '🌡️',
-            specs: 'Range: -55°C to +125°C, ±0.5°C accuracy'
+            type: 'HC-SR04',
+            description: 'Distance measurement sensor using ultrasonic waves',
+            pins: ['VCC', 'Trig', 'Echo', 'GND'],
+            image: '📡'
         },
         {
             name: 'LED',
-            category: 'Outputs',
-            description: 'Light Emitting Diode',
-            image: '💡',
-            specs: 'Various colors, 20mA current, 2-3V forward voltage'
+            type: 'Standard LED',
+            description: 'Light emitting diode for visual indicators',
+            pins: ['Anode (+)', 'Cathode (-)'],
+            image: '💡'
         },
         {
             name: 'Servo Motor',
-            category: 'Actuators',
-            description: 'SG90 micro servo motor',
-            image: '⚙️',
-            specs: '180° rotation, 4.8-6V, PWM control'
+            type: 'SG90',
+            description: 'Precise angular positioning motor',
+            pins: ['VCC', 'Signal', 'GND'],
+            image: '⚙️'
         },
         {
             name: 'Buzzer',
-            category: 'Outputs',
-            description: 'Active buzzer for audio feedback',
-            image: '🔊',
-            specs: '5V operation, 85dB sound level'
+            type: 'Active Buzzer',
+            description: 'Audio output device for alerts and notifications',
+            pins: ['VCC', 'GND'],
+            image: '🔊'
         },
         {
-            name: 'Relay Module',
-            category: 'Switches',
-            description: '5V relay for controlling high power devices',
-            image: '🔌',
-            specs: '10A/250VAC, 10A/30VDC switching capacity'
+            name: 'Light Sensor',
+            type: 'LDR',
+            description: 'Light dependent resistor for ambient light detection',
+            pins: ['A0', 'GND'],
+            image: '☀️'
         }
     ];
-    var categories = __spreadArrays(new Set(components.map(function (c) { return c.category; })));
     return (react_1["default"].createElement("div", { style: {
-            background: 'white',
+            background: 'rgba(255, 255, 255, 0.95)',
             borderRadius: '20px',
             padding: '30px',
-            margin: '20px 0',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+            backdropFilter: 'blur(20px)'
         } },
         react_1["default"].createElement("h2", { style: {
                 margin: '0 0 25px 0',
@@ -81,60 +59,65 @@ var ComponentLibrary = function () {
                 fontWeight: '600',
                 color: '#333'
             } }, "Component Library"),
-        categories.map(function (category) { return (react_1["default"].createElement("div", { key: category, style: { marginBottom: '30px' } },
-            react_1["default"].createElement("h3", { style: {
-                    color: '#667eea',
-                    fontSize: '18px',
-                    fontWeight: '600',
-                    marginBottom: '15px',
-                    borderBottom: '2px solid #e2e8f0',
-                    paddingBottom: '8px'
-                } }, category),
+        react_1["default"].createElement("div", { style: {
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '20px'
+            } }, components.map(function (component, index) { return (react_1["default"].createElement("div", { key: index, style: {
+                background: '#f8fafc',
+                border: '2px solid #e2e8f0',
+                borderRadius: '15px',
+                padding: '20px',
+                transition: 'transform 0.2s ease',
+                cursor: 'pointer'
+            }, onMouseEnter: function (e) {
+                e.currentTarget.style.transform = 'translateY(-5px)';
+                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
+            }, onMouseLeave: function (e) {
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = 'none';
+            } },
             react_1["default"].createElement("div", { style: {
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                    gap: '15px'
-                } }, components
-                .filter(function (component) { return component.category === category; })
-                .map(function (component, index) { return (react_1["default"].createElement("div", { key: index, style: {
-                    background: '#f8fafc',
-                    border: '2px solid #e2e8f0',
+                    fontSize: '48px',
+                    textAlign: 'center',
+                    marginBottom: '15px'
+                } }, component.image),
+            react_1["default"].createElement("h3", { style: {
+                    margin: '0 0 5px 0',
+                    color: '#333',
+                    fontSize: '18px',
+                    fontWeight: '600'
+                } }, component.name),
+            react_1["default"].createElement("div", { style: {
+                    background: '#E5E7EB',
+                    color: '#374151',
+                    padding: '4px 8px',
                     borderRadius: '12px',
-                    padding: '20px',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer'
-                } },
-                react_1["default"].createElement("div", { style: {
-                        display: 'flex',
-                        alignItems: 'center',
-                        marginBottom: '12px'
-                    } },
-                    react_1["default"].createElement("div", { style: {
-                            fontSize: '32px',
-                            marginRight: '15px'
-                        } }, component.image),
-                    react_1["default"].createElement("div", null,
-                        react_1["default"].createElement("h4", { style: {
-                                margin: '0 0 5px 0',
-                                fontSize: '16px',
-                                fontWeight: '600',
-                                color: '#333'
-                            } }, component.name),
-                        react_1["default"].createElement("p", { style: {
-                                margin: 0,
-                                fontSize: '14px',
-                                color: '#6b7280'
-                            } }, component.description))),
-                react_1["default"].createElement("div", { style: {
+                    fontSize: '12px',
+                    fontWeight: '600',
+                    display: 'inline-block',
+                    marginBottom: '10px'
+                } }, component.type),
+            react_1["default"].createElement("p", { style: {
+                    margin: '0 0 15px 0',
+                    fontSize: '14px',
+                    color: '#6b7280',
+                    lineHeight: '1.5'
+                } }, component.description),
+            react_1["default"].createElement("div", null,
+                react_1["default"].createElement("h4", { style: {
+                        margin: '0 0 8px 0',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        color: '#333'
+                    } }, "Pin Configuration:"),
+                react_1["default"].createElement("div", { style: { display: 'flex', flexWrap: 'wrap', gap: '5px' } }, component.pins.map(function (pin, pinIndex) { return (react_1["default"].createElement("span", { key: pinIndex, style: {
+                        background: '#3B82F6',
+                        color: 'white',
+                        padding: '2px 8px',
+                        borderRadius: '10px',
                         fontSize: '12px',
-                        color: '#6b7280',
-                        background: 'white',
-                        padding: '8px',
-                        borderRadius: '6px',
-                        border: '1px solid #e2e8f0'
-                    } },
-                    react_1["default"].createElement("strong", null, "Specs:"),
-                    " ",
-                    component.specs))); })))); })));
+                        fontWeight: '500'
+                    } }, pin)); }))))); }))));
 };
 exports["default"] = ComponentLibrary;

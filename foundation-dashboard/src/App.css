@@ -1,0 +1,120 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.dashboard {
+  min-height: 100vh;
+  padding: 20px;
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  color: white;
+  margin-bottom: 40px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.sensors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sensor-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.sensor-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+}
+
+.sensor-icon {
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sensor-info h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.sensor-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #555;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 15px;
+  }
+  
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .sensors-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sensor-card {
+    padding: 20px;
+  }
+}

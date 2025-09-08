@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tinko WebSocket Test Client</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .connected { background-color: #d4edda; color: #155724; }
+        .disconnected { background-color: #f8d7da; color: #721c24; }
+        .data { background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 10px 0; }
+        pre { white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body>
+    <h1>Tinko WebSocket Test Client</h1>
+    
+    <div id="status" class="status disconnected">Disconnected</div>
+    
+    <div>
+        <label for="portInput">Port: </label>
+        <input type="number" id="portInput" value="8080" min="8080" max="8090">
+    </div>
+    
+    <button id="connectBtn">Connect</button>
+    <button id="disconnectBtn" disabled>Disconnect</button>
+    
+    <h2>Latest Sensor Data:</h2>
+    <div id="sensorData" class="data">No data received yet...</div>
+    
+    <!-- Open this file in a browser to test WebSocket connection -->
+    
+    <script>
+        let ws = null;
+        const statusDiv = document.getElementById('status');
+        const connectBtn = document.getElementById('connectBtn');
+        const disconnectBtn = document.getElementById('disconnectBtn');
+        const sensorDataDiv = document.getElementById('sensorData');
+        const portInput = document.getElementById('portInput');
+        
+        function connect() {
+            const port = portInput.value || 8080;
+            ws = new WebSocket(`ws://localhost:${port}`);
+            
+            ws.onopen = function() {
+                statusDiv.textContent = `Connected to WebSocket server on port ${port}`;
+                statusDiv.className = 'status connected';
+                connectBtn.disabled = true;
+                disconnectBtn.disabled = false;
+            };
+            
+            ws.onmessage = function(event) {
+                const message = JSON.parse(event.data);
+                if (message.type === 'sensorData') {
+                    sensorDataDiv.innerHTML = `<pre>${JSON.stringify(message.data, null, 2)}</pre>`;
+                }
+            };
+            
+            ws.onclose = function() {
+                statusDiv.textContent = 'Disconnected from WebSocket server';
+                statusDiv.className = 'status disconnected';
+                connectBtn.disabled = false;
+                disconnectBtn.disabled = true;
+            };
+            
+            ws.onerror = function(error) {
+                console.error('WebSocket error:', error);
+                statusDiv.textContent = 'Connection error';
+                statusDiv.className = 'status disconnected';
+            };
+        }
+        
+        function disconnect() {
+            if (ws) {
+                ws.close();
+            }
+        }
+        
+        connectBtn.addEventListener('click', connect);
+        disconnectBtn.addEventListener('click', disconnect);
+    </script>
+</body>
+</html>

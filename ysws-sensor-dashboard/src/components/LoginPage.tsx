@@ -6,25 +6,19 @@ interface LoginPageProps {
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
-    const [isLogin, setIsLogin] = useState(true);
-    const [formData, setFormData] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        if (isLogin) {
-            onLogin(formData.username || 'Engineer');
+        
+        // Simple validation - in real app, use proper authentication
+        if (username.trim() && password === 'advanced123') {
+            onLogin(username);
         } else {
-            onLogin(formData.username || 'New Engineer');
+            setError('Invalid credentials. Use password: advanced123');
         }
-    };
-
-    const handleInputChange = (field: string, value: string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
     };
 
     return (
@@ -41,158 +35,145 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin, onBack }) => {
                 borderRadius: '20px',
                 padding: '40px',
                 width: '100%',
-                maxWidth: '450px',
-                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.1)',
+                maxWidth: '400px',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                 backdropFilter: 'blur(20px)'
             }}>
-                <button 
-                    onClick={onBack}
-                    style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#667eea',
-                        fontSize: '16px',
-                        cursor: 'pointer',
-                        marginBottom: '20px'
-                    }}
-                >
-                    ← Back to Simple Mode
-                </button>
-
                 <h2 style={{
                     textAlign: 'center',
                     margin: '0 0 30px 0',
-                    color: '#333',
-                    fontSize: '28px'
+                    fontSize: '28px',
+                    fontWeight: '700',
+                    color: '#333'
                 }}>
-                    {isLogin ? 'Engineer Login' : 'Create Account'}
+                    🔐 Advanced Login
                 </h2>
-
-                <form onSubmit={handleSubmit}>
+                
+                <form onSubmit={handleLogin}>
                     <div style={{ marginBottom: '20px' }}>
-                        <label style={{ display: 'block', marginBottom: '8px', color: '#555', fontWeight: '600' }}>
+                        <label style={{
+                            display: 'block',
+                            marginBottom: '8px',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            color: '#374151'
+                        }}>
                             Username
                         </label>
                         <input
                             type="text"
-                            value={formData.username}
-                            onChange={(e) => handleInputChange('username', e.target.value)}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             style={{
                                 width: '100%',
-                                padding: '12px',
+                                padding: '12px 16px',
                                 border: '2px solid #e2e8f0',
                                 borderRadius: '10px',
                                 fontSize: '16px',
                                 outline: 'none',
-                                transition: 'border-color 0.3s'
+                                transition: 'border-color 0.2s ease'
                             }}
                             placeholder="Enter your username"
                             required
                         />
                     </div>
-
-                    {!isLogin && (
-                        <div style={{ marginBottom: '20px' }}>
-                            <label style={{ display: 'block', marginBottom: '8px', color: '#555', fontWeight: '600' }}>
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                value={formData.email}
-                                onChange={(e) => handleInputChange('email', e.target.value)}
-                                style={{
-                                    width: '100%',
-                                    padding: '12px',
-                                    border: '2px solid #e2e8f0',
-                                    borderRadius: '10px',
-                                    fontSize: '16px',
-                                    outline: 'none'
-                                }}
-                                placeholder="Enter your email"
-                                required
-                            />
-                        </div>
-                    )}
-
+                    
                     <div style={{ marginBottom: '20px' }}>
-                        <label style={{ display: 'block', marginBottom: '8px', color: '#555', fontWeight: '600' }}>
+                        <label style={{
+                            display: 'block',
+                            marginBottom: '8px',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            color: '#374151'
+                        }}>
                             Password
                         </label>
                         <input
                             type="password"
-                            value={formData.password}
-                            onChange={(e) => handleInputChange('password', e.target.value)}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             style={{
                                 width: '100%',
-                                padding: '12px',
+                                padding: '12px 16px',
                                 border: '2px solid #e2e8f0',
                                 borderRadius: '10px',
                                 fontSize: '16px',
-                                outline: 'none'
+                                outline: 'none',
+                                transition: 'border-color 0.2s ease'
                             }}
-                            placeholder="Enter your password"
+                            placeholder="Enter password"
                             required
                         />
                     </div>
-
-                    {!isLogin && (
-                        <div style={{ marginBottom: '20px' }}>
-                            <label style={{ display: 'block', marginBottom: '8px', color: '#555', fontWeight: '600' }}>
-                                Confirm Password
-                            </label>
-                            <input
-                                type="password"
-                                value={formData.confirmPassword}
-                                onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                                style={{
-                                    width: '100%',
-                                    padding: '12px',
-                                    border: '2px solid #e2e8f0',
-                                    borderRadius: '10px',
-                                    fontSize: '16px',
-                                    outline: 'none'
-                                }}
-                                placeholder="Confirm your password"
-                                required
-                            />
+                    
+                    {error && (
+                        <div style={{
+                            background: '#FEF2F2',
+                            border: '1px solid #FECACA',
+                            color: '#DC2626',
+                            padding: '12px',
+                            borderRadius: '8px',
+                            marginBottom: '20px',
+                            fontSize: '14px'
+                        }}>
+                            {error}
                         </div>
                     )}
-
-                    <button
-                        type="submit"
-                        style={{
-                            width: '100%',
-                            background: '#667eea',
-                            color: 'white',
-                            border: 'none',
-                            padding: '15px',
-                            borderRadius: '10px',
-                            fontSize: '18px',
-                            fontWeight: '600',
-                            cursor: 'pointer',
-                            marginBottom: '20px',
-                            transition: 'background 0.3s'
-                        }}
-                    >
-                        {isLogin ? 'Login' : 'Create Account'}
-                    </button>
+                    
+                    <div style={{
+                        background: '#F3F4F6',
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        padding: '12px',
+                        marginBottom: '20px',
+                        fontSize: '14px',
+                        color: '#6B7280'
+                    }}>
+                        💡 Demo Password: <strong>advanced123</strong>
+                    </div>
+                    
+                    <div style={{
+                        display: 'flex',
+                        gap: '10px'
+                    }}>
+                        <button
+                            type="button"
+                            onClick={onBack}
+                            style={{
+                                flex: 1,
+                                background: '#6B7280',
+                                color: 'white',
+                                border: 'none',
+                                padding: '12px 24px',
+                                borderRadius: '10px',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                transition: 'background 0.2s ease'
+                            }}
+                        >
+                            Back
+                        </button>
+                        
+                        <button
+                            type="submit"
+                            style={{
+                                flex: 2,
+                                background: '#10B981',
+                                color: 'white',
+                                border: 'none',
+                                padding: '12px 24px',
+                                borderRadius: '10px',
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                cursor: 'pointer',
+                                transition: 'background 0.2s ease'
+                            }}
+                        >
+                            Login to Advanced Mode
+                        </button>
+                    </div>
                 </form>
-
-                <div style={{ textAlign: 'center' }}>
-                    <button
-                        onClick={() => setIsLogin(!isLogin)}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: '#667eea',
-                            fontSize: '16px',
-                            cursor: 'pointer',
-                            textDecoration: 'underline'
-                        }}
-                    >
-                        {isLogin ? "Don't have an account? Sign up" : "Already have an account? Login"}
-                    </button>
-                </div>
             </div>
         </div>
     );
