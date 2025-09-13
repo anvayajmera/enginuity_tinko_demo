@@ -1,3 +1,32 @@
+#!/bin/bash
+
+echo "🔧 Force Saving YSWS Dashboard Files"
+echo "===================================="
+
+cd "$(dirname "$0")"
+
+# Check if we're in the right directory
+if [ ! -d "ysws-sensor-dashboard" ]; then
+    echo "❌ ysws-sensor-dashboard directory not found!"
+    echo "📍 Current directory: $(pwd)"
+    exit 1
+fi
+
+# Navigate to the source directory
+cd ysws-sensor-dashboard/src
+
+echo "📁 Working in: $(pwd)"
+echo ""
+
+# Check file permissions
+echo "🔍 Checking file permissions..."
+ls -la
+
+echo ""
+echo "📝 Attempting to create/update key files..."
+
+# Force create the main App.tsx if it doesn't exist or is problematic
+cat > App.tsx << 'EOF'
 import React, { useState } from 'react';
 import Dashboard from './components/Dashboard';
 import AdvancedDashboard from './components/AdvancedDashboard';
@@ -73,17 +102,7 @@ const App: React.FC = () => {
                             transition: 'all 0.3s ease',
                             cursor: 'pointer'
                         }}
-                        onClick={() => setCurrentView('simple')}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-5px)';
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                            e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.2)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                            e.currentTarget.style.boxShadow = 'none';
-                        }}>
+                        onClick={() => setCurrentView('simple')}>
                             <div style={{ fontSize: '3rem', marginBottom: '20px' }}>📊</div>
                             <h2 style={{ fontSize: '24px', marginBottom: '15px', fontWeight: '600' }}>
                                 Simple Dashboard
@@ -112,17 +131,7 @@ const App: React.FC = () => {
                             transition: 'all 0.3s ease',
                             cursor: 'pointer'
                         }}
-                        onClick={() => setCurrentView('login')}
-                        onMouseEnter={(e) => {
-                            e.currentTarget.style.transform = 'translateY(-5px)';
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
-                            e.currentTarget.style.boxShadow = '0 15px 35px rgba(0,0,0,0.2)';
-                        }}
-                        onMouseLeave={(e) => {
-                            e.currentTarget.style.transform = 'translateY(0)';
-                            e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
-                            e.currentTarget.style.boxShadow = 'none';
-                        }}>
+                        onClick={() => setCurrentView('login')}>
                             <div style={{ fontSize: '3rem', marginBottom: '20px' }}>🔧</div>
                             <h2 style={{ fontSize: '24px', marginBottom: '15px', fontWeight: '600' }}>
                                 Advanced Dashboard
@@ -175,3 +184,34 @@ const App: React.FC = () => {
 };
 
 export default App;
+EOF
+
+echo "✅ App.tsx created/updated"
+
+# Check if components directory exists
+if [ ! -d "components" ]; then
+    echo "📁 Creating components directory..."
+    mkdir -p components
+fi
+
+# Create a simple test to see if we can write files
+echo "🧪 Testing file write permissions..."
+echo "test" > test-write.txt
+if [ -f "test-write.txt" ]; then
+    echo "✅ File write permissions OK"
+    rm test-write.txt
+else
+    echo "❌ Cannot write files - permission issue!"
+    echo "🔧 Try running: sudo chown -R $(whoami) $(pwd)"
+    exit 1
+fi
+
+echo ""
+echo "🎯 Next steps:"
+echo "1. Close VS Code completely"
+echo "2. Reopen VS Code"
+echo "3. Open the project folder"
+echo "4. Try saving again with Cmd+S"
+echo ""
+echo "Or run the dashboard directly:"
+echo "cd $(pwd) && npm run dev"

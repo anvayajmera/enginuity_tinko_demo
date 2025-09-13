@@ -1,13 +1,16 @@
 {
-  "name": "sensor-websocket-server",
+  "name": "ysws-websocket-server",
   "version": "1.0.0",
-  "type": "module",
+  "description": "WebSocket server for YSWS IoT Dashboard",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"
   },
   "dependencies": {
-    "ws": "^8.14.2",
-    "cors": "^2.8.5"
-  }
+    "ws": "^8.14.2"
+  },
+  "keywords": ["websocket", "iot", "sensors", "dashboard"],
+  "author": "YSWS",
+  "license": "MIT"
 }
